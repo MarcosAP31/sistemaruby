@@ -1,0 +1,88 @@
+<%= form_with(model: @product, local: true) do |form| %>
+    <% if @product.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@product.errors.count, 'error') %> prohibited this product from being saved:</h2>
+  
+        <ul>
+          <% @product.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="mb-3">
+      <%= form.label :Description, class: 'form-label' %>
+      <%= form.text_field :Description, class: 'form-control', required: true %>
+    </div>
+  
+    <div class="mb-3">
+      <%= form.label :Category, class: 'form-label' %>
+      <%= form.text_field :Category, class: 'form-control', required: true %>
+    </div>
+  
+    <div class="mb-3">
+      <%= form.label :Amount, class: 'form-label' %>
+      <%= form.number_field :Amount, class: 'form-control', required: true %>
+    </div>
+  
+    <div class="mb-3">
+      <%= form.label :PurchasePrice, class: 'form-label' %>
+      <%= form.text_field :PurchasePrice, class: 'form-control', required: true %>
+    </div>
+  
+    <div class="mb-3">
+      <%= form.label :SalePrice, class: 'form-label' %>
+      <%= form.text_field :SalePrice, class: 'form-control', required: true %>
+    </div>
+  
+    <div class="mb-3">
+    <%= form.label :Image, class: 'form-label' %>
+    <%= form.file_field :image, class: 'form-control', id: 'image-preview-input' %>
+    <img id="image-preview" class="img-thumbnail" style="max-width: 100px; display: none;">
+    <% if @product.image.attached? %>
+      <%# Mostrar la imagen actual si existe %>
+      <%= image_tag @product.image, class: 'img-thumbnail', style: 'max-width: 100px;', id: 'current-image' %>
+    <% end %>
+  </div>
+  
+    <div class="mb-3">
+      <%= form.submit 'Save', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+  <style>
+  /* Agrega espacio alrededor del formulario */
+  form {
+    margin: 20px;
+  }
+</style>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('image-preview-input');
+    const preview = document.getElementById('image-preview');
+    const currentImage = document.getElementById('current-image');
+
+    input.addEventListener('change', function() {
+      const file = input.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          // Ocultar la imagen actual si existe
+          if (currentImage) {
+            currentImage.style.display = 'none';
+          }
+        };
+
+        reader.readAsDataURL(file);
+      } else if (currentImage) {
+        // Mostrar la imagen actual si no se proporciona un nuevo archivo
+        preview.src = currentImage.src;
+        preview.style.display = 'block';
+      }
+    });
+  });
+</script>

@@ -1,0 +1,37 @@
+<div class="container text-center mt-4">
+<h1 class="mt-4 mb-4">Product List</h1>
+
+<table class="table table-striped mt-4 mb-4">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount</th>
+      <th>Purchase Price</th>
+      <th>Sale Price</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.id %></td>
+        <td><%= product.Description %></td>
+        <td><%= product.Category %></td>
+        <td><%= product.Amount %></td>
+        <td><%= product.PurchasePrice %></td>
+        <td><%= product.SalePrice %></td>
+        <td><%= image_tag product.image, class: 'img-thumbnail', style: 'max-width: 100px;' if product.image.attached? %></td>
+        <td>
+          <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning btn-sm' %>
+          <%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Product', new_product_path, class: 'btn btn-success' %>
+</div>
